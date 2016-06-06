@@ -17,10 +17,14 @@ type alias Model =
 type alias Truck =
     { x : Float
     , y : Float
+    , direction: Direction
     }
 
-type Msg
-    = Tick Time
+type Direction =
+    Left | Right
+
+type Msg =
+    Tick Time
 
 
 screenWidth : Float
@@ -54,8 +58,8 @@ initialTruck : Truck
 initialTruck =
     { x = ((screenWidth - truckWidth) / 2)
     , y = ((screenHeight - truckHeight) / 2)
+    , direction = Right
     }
-
 
 
 update : Msg -> Model -> ( Model, Cmd Msg )
@@ -69,15 +73,34 @@ update msg model =
 view : Model -> Html Msg
 view model =
     Svg.svg [ version "1.1", x "0", y "0", (viewBox ("0 0 " ++ (toString screenWidth) ++ " " ++ (toString screenHeight))), Svg.Attributes.style "background: black;" ]
-        [ image
-            [ (xlinkHref "truck.svg")
-            , height (toString truckHeight)
-            , width (toString truckWidth)
-            , x (toString model.truck.x)
-            , y (toString model.truck.y)
-            ]
-            []
-        ]
+        [ truckImage model.truck ]
+
+
+truckImage: Truck -> Svg Msg
+truckImage truck =
+    image [ xlinkHref "truck.svg"
+          , height (toString truckHeight)
+          , width (toString truckWidth)
+          , x (toString (truckX truck))
+          , y (toString truck.y)
+          , flipTruck truck
+          ] []
+
+
+-- SVG transform to flip the truck left-to-right, if necessary.
+flipTruck: Truck -> Attribute Msg
+flipTruck truck =
+    case truck.direction of
+        Left -> transform ""
+        Right -> transform ("translate(" ++ (toString screenWidth) ++ ",0) scale(-1,1)")
+
+
+-- The SVG transform to flip the truck also messes with its x axis, so account for that.
+truckX: Truck -> Float
+truckX truck =
+    case truck.direction of
+        Left -> truck.x
+        Right -> screenWidth - truckWidth - truck.x
 
 
 subscriptions : Model -> Sub Msg

@@ -12,7 +12,6 @@ TODO
 ----
 
 * Get truck to move left and right, per key presses.
-* Get truck to turn left and right.
 * Get truck to move up and down, per key presses.
 * Add gravity.
 * Add landing pads for the truck to land on.
