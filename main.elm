@@ -1,48 +1,24 @@
 module Main exposing (..)
 
-
-import Html exposing (Html)
 import Html.App as App
 import Svg exposing (..)
 import Svg.Attributes exposing (..)
 import Time exposing (Time, millisecond)
 import Keyboard.Extra as Keyboard
+import Truck
+import Screen
 
 
 type alias Model =
-    { truck : Truck
+    { truck : Truck.Model
     , time : Time
-    , keyboard: Keyboard.Model
+    , keyboard : Keyboard.Model
     }
-
-type alias Truck =
-    { x : Float
-    , y : Float
-    , direction: Direction
-    }
-
-type Direction =
-    Left | Right
 
 type Msg =
-    Tick Time | KeyboardMsg Keyboard.Msg
-
-
-screenWidth : Float
-screenWidth =
-    2000
-
-screenHeight : Float
-screenHeight =
-    1000
-
-truckHeight : Float
-truckHeight =
-    screenHeight / 12
-
-truckWidth : Float
-truckWidth =
-    truckHeight * 2
+    Tick Time
+    | KeyboardMsg Keyboard.Msg
+    | TruckMsg Truck.Msg
 
 
 main : Program Never
@@ -56,15 +32,7 @@ init =
         ( keyboardModel, keyboardCmd ) =
             Keyboard.init
     in
-        ( { truck = initialTruck, time = 0, keyboard = keyboardModel }, Cmd.map KeyboardMsg keyboardCmd )
-
-
-initialTruck : Truck
-initialTruck =
-    { x = ((screenWidth - truckWidth) / 2)
-    , y = ((screenHeight - truckHeight) / 2)
-    , direction = Right
-    }
+        ( { truck = Truck.init, time = 0, keyboard = keyboardModel }, Cmd.map KeyboardMsg keyboardCmd )
 
 
 update : Msg -> Model -> ( Model, Cmd Msg )
@@ -80,44 +48,22 @@ update msg model =
                 )
         Tick newTime ->
             let
-                truck = model.truck
-                arrows = (Keyboard.arrows model.keyboard)
-                truckDirection = (if arrows.x == -1 then Left else if arrows.x == 1 then Right else truck.direction)
+                arrows =
+                    Keyboard.arrows model.keyboard
+                truck =
+                    model.truck
+                        |> Truck.move { arrows | x = toFloat arrows.x, y = toFloat -arrows.y }
+                        |> Truck.turn arrows.x
             in
-                ( { model | time = newTime, truck = { truck | direction = truckDirection, x = truck.x + (toFloat arrows.x), y = truck.y + (toFloat -arrows.y) } }, Cmd.none )
+                ( { model | time = newTime, truck = truck }, Cmd.none )
+        TruckMsg msg ->
+            ( model, Cmd.none )
 
 
-view : Model -> Html Msg
+view : Model -> Svg Msg
 view model =
-    Svg.svg [ version "1.1", x "0", y "0", (viewBox ("0 0 " ++ (toString screenWidth) ++ " " ++ (toString screenHeight))), Svg.Attributes.style "background: black;" ]
-        [ truckImage model.truck ]
-
-
-truckImage: Truck -> Svg Msg
-truckImage truck =
-    image [ xlinkHref "truck.svg"
-          , height (toString truckHeight)
-          , width (toString truckWidth)
-          , x (toString (truckX truck))
-          , y (toString truck.y)
-          , flipTruck truck
-          ] []
-
-
--- SVG transform to flip the truck left-to-right, if necessary.
-flipTruck: Truck -> Attribute Msg
-flipTruck truck =
-    case truck.direction of
-        Left -> transform ""
-        Right -> transform ("translate(" ++ (toString screenWidth) ++ ",0) scale(-1,1)")
-
-
--- The SVG transform to flip the truck also messes with its x axis, so account for that.
-truckX: Truck -> Float
-truckX truck =
-    case truck.direction of
-        Left -> truck.x
-        Right -> screenWidth - truckWidth - truck.x
+    Svg.svg [ version "1.1", x "0", y "0", (viewBox ("0 0 " ++ (toString Screen.width) ++ " " ++ (toString Screen.height))), Svg.Attributes.style "background: black;" ]
+        [ App.map TruckMsg (Truck.view model.truck) ]
 
 
 subscriptions : Model -> Sub Msg

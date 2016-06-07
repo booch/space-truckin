@@ -16,6 +16,7 @@ TODO
 * Add landing pads for the truck to land on.
 * Add a route for the truck to follow (series of landing pads).
 * Add objects for the truck to crash into.
+* Use elm-lang/animation-frame.
 * Add a series of screens.
     * Each will have different landing pads, objects, and routes.
 * Customize game-play of each screen.
