@@ -85,7 +85,7 @@ update msg model =
                 arrows = (Keyboard.arrows model.keyboard)
                 truckDirection = (if arrows.x == -1 then Left else if arrows.x == 1 then Right else truck.direction)
             in
-                ( { model | time = newTime, truck = { truck | direction = truckDirection, x = truck.x + (toFloat arrows.x) } }, Cmd.none )
+                ( { model | time = newTime, truck = { truck | direction = truckDirection, x = truck.x + (toFloat arrows.x), y = truck.y + (toFloat -arrows.y) } }, Cmd.none )
 
 
 view : Model -> Html Msg
