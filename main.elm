@@ -1,5 +1,4 @@
--- Only commenting this out because it messes up Atom's code highlighting (and it's not strictly needed).
--- module Main exposing (..)
+module Main exposing (..)
 
 
 import Html exposing (Html)
