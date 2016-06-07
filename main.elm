@@ -7,11 +7,13 @@ import Html.App as App
 import Svg exposing (..)
 import Svg.Attributes exposing (..)
 import Time exposing (Time, millisecond)
+import Keyboard.Extra as Keyboard
 
 
 type alias Model =
     { truck : Truck
     , time : Time
+    , keyboard: Keyboard.Model
     }
 
 type alias Truck =
@@ -24,7 +26,7 @@ type Direction =
     Left | Right
 
 type Msg =
-    Tick Time
+    Tick Time | KeyboardMsg Keyboard.Msg
 
 
 screenWidth : Float
@@ -51,7 +53,11 @@ main =
 
 init : ( Model, Cmd Msg )
 init =
-    ( { truck = initialTruck, time = 0 }, Cmd.none )
+    let
+        ( keyboardModel, keyboardCmd ) =
+            Keyboard.init
+    in
+        ( { truck = initialTruck, time = 0, keyboard = keyboardModel }, Cmd.map KeyboardMsg keyboardCmd )
 
 
 initialTruck : Truck
@@ -65,9 +71,20 @@ initialTruck =
 update : Msg -> Model -> ( Model, Cmd Msg )
 update msg model =
     case msg of
+        KeyboardMsg keyMsg ->
+            let
+                ( keyboardModel, keyboardCmd ) =
+                    Keyboard.update keyMsg model.keyboard
+            in
+                ( { model | keyboard = keyboardModel }
+                , Cmd.map KeyboardMsg keyboardCmd
+                )
         Tick newTime ->
-            let truck = model.truck in
-                ( { model | time = newTime, truck = { truck | x = model.truck.x + 1 } }, Cmd.none )
+            let
+                truck = model.truck
+                arrows = (Keyboard.arrows model.keyboard)
+            in
+                ( { model | time = newTime, truck = { truck | x = truck.x + (toFloat arrows.x) } }, Cmd.none )
 
 
 view : Model -> Html Msg
@@ -105,4 +122,7 @@ truckX truck =
 
 subscriptions : Model -> Sub Msg
 subscriptions model =
-    Time.every (8 * millisecond) Tick
+    Sub.batch
+        [ Sub.map KeyboardMsg Keyboard.subscriptions
+        , Time.every (8 * millisecond) Tick
+        ]

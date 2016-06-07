@@ -11,9 +11,10 @@ and partly because I loved Space Taxi so much, I want to play more games like it
 TODO
 ----
 
-* Get truck to move left and right, per key presses.
+* Truck should point left or right, depending on direction it's traveling.
 * Get truck to move up and down, per key presses.
 * Add gravity.
+* Add acceleration and speed.
 * Add landing pads for the truck to land on.
 * Add a route for the truck to follow (series of landing pads).
 * Add objects for the truck to crash into.
