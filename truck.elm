@@ -81,7 +81,7 @@ turn xDirection model =
 view : Model -> Svg Msg
 view model =
     image
-        [ Svg.Attributes.xlinkHref "truck.svg"
+        [ Svg.Attributes.xlinkHref "images/truck.svg"
         , Svg.Attributes.height (toString model.height)
         , Svg.Attributes.width (toString model.width)
         , Svg.Attributes.x (toString (truckX model))
