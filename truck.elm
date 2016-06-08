@@ -37,6 +37,11 @@ type alias Vector =
     , y : Float
     }
 
+type alias Arrows =
+    { x : Int
+    , y : Int
+    }
+
 type Msg =
     Turn Direction
     | Move Vector
@@ -62,14 +67,18 @@ update msg model =
             { model | direction = direction }
 
 
-thrust : Vector -> Model -> Model
-thrust vector model =
-    { model | location = { x = model.location.x + vector.x, y = model.location.y + vector.y } }
+thrust : Arrows -> Model -> Model
+thrust arrows model =
+    { model |
+        location = { x = model.location.x + (toFloat arrows.x),
+                     y = model.location.y + (toFloat -arrows.y)
+                   }
+    } |> turn arrows
 
 
-turn : Int -> Model -> Model
-turn xDirection model =
-    case xDirection of
+turn : Arrows -> Model -> Model
+turn arrows model =
+    case arrows.x of
         1 ->
             { model | direction = Right }
         (-1) ->

@@ -52,8 +52,7 @@ update msg model =
                     Keyboard.arrows model.keyboard
                 truck =
                     model.truck
-                        |> Truck.thrust { arrows | x = toFloat arrows.x, y = toFloat -arrows.y }
-                        |> Truck.turn arrows.x
+                        |> Truck.thrust arrows
                         |> Truck.gravity
             in
                 ( { model | time = newTime, truck = truck }, Cmd.none )
