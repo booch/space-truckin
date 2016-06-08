@@ -52,7 +52,7 @@ update msg model =
                     Keyboard.arrows model.keyboard
                 truck =
                     model.truck
-                        |> Truck.move { arrows | x = toFloat arrows.x, y = toFloat -arrows.y }
+                        |> Truck.thrust { arrows | x = toFloat arrows.x, y = toFloat -arrows.y }
                         |> Truck.turn arrows.x
                         |> Truck.gravity
             in

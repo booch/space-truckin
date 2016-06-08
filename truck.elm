@@ -1,4 +1,4 @@
-module Truck exposing (Model, Msg, init, update, move, turn, gravity, view)
+module Truck exposing (Model, Msg, init, update, thrust, turn, gravity, view)
 
 import Svg exposing (..)
 import Svg.Attributes exposing (..)
@@ -62,8 +62,8 @@ update msg model =
             { model | direction = direction }
 
 
-move : Vector -> Model -> Model
-move vector model =
+thrust : Vector -> Model -> Model
+thrust vector model =
     { model | location = { x = model.location.x + vector.x, y = model.location.y + vector.y } }
 
 
