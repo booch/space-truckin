@@ -54,6 +54,7 @@ update msg model =
                     model.truck
                         |> Truck.move { arrows | x = toFloat arrows.x, y = toFloat -arrows.y }
                         |> Truck.turn arrows.x
+                        |> Truck.gravity
             in
                 ( { model | time = newTime, truck = truck }, Cmd.none )
         TruckMsg msg ->

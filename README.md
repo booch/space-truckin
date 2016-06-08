@@ -11,8 +11,9 @@ and partly because I loved Space Taxi so much, I want to play more games like it
 TODO
 ----
 
-* Add gravity.
-* Add acceleration and speed.
+* Add acceleration and velocity.
+    * Change movement keys to acceleration.
+    * Change gravity to an acceleration.
 * Add landing pads for the truck to land on.
 * Add a route for the truck to follow (series of landing pads).
 * Add objects for the truck to crash into.
