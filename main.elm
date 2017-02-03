@@ -7,10 +7,12 @@ import Time exposing (Time, millisecond)
 import Keyboard.Extra as Keyboard
 import Truck
 import Screen
+import Scene
 
 
 type alias Model =
-    { truck : Truck.Model
+    { scene: Scene.Model
+    , truck : Truck.Model
     , time : Time
     , keyboard : Keyboard.Model
     }
@@ -19,6 +21,7 @@ type Msg =
     Tick Time
     | KeyboardMsg Keyboard.Msg
     | TruckMsg Truck.Msg
+    | SceneMsg {}
 
 
 main : Program Never Model Msg
@@ -32,7 +35,7 @@ init =
         ( keyboardModel, keyboardCmd ) =
             Keyboard.init
     in
-        ( { truck = Truck.init, time = 0, keyboard = keyboardModel }, Cmd.map KeyboardMsg keyboardCmd )
+        ( { scene = Scene.init, truck = Truck.init, time = 0, keyboard = keyboardModel }, Cmd.map KeyboardMsg keyboardCmd )
 
 
 update : Msg -> Model -> ( Model, Cmd Msg )
@@ -59,12 +62,15 @@ update msg model =
                 ( { model | time = newTime, truck = truck }, Cmd.none )
         TruckMsg msg ->
             ( model, Cmd.none )
+        SceneMsg msg ->
+            ( model, Cmd.none )
 
 
 view : Model -> Svg Msg
 view model =
     Svg.svg [ version "1.1", x "0", y "0", (viewBox ("0 0 " ++ (toString Screen.width) ++ " " ++ (toString Screen.height))), Svg.Attributes.style "background: black;" ]
-        [ Html.map TruckMsg (Truck.view model.truck) ]
+        [ Html.map SceneMsg (Scene.view model.scene)
+        , Html.map TruckMsg (Truck.view model.truck) ]
 
 
 subscriptions : Model -> Sub Msg

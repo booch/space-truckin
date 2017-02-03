@@ -1,4 +1,4 @@
-module Truck exposing (Model, Msg, init, update, thrust, turn, gravity, move, view)
+module Truck exposing (Model, Msg, init, update, thrust, turn, gravity, move, view, width, height)
 
 import Svg exposing (..)
 import Svg.Attributes exposing (..)
