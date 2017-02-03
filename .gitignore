@@ -5,3 +5,6 @@ repl-temp-*
 
 # This JS file is generated, so we don't need to keep it.
 elm.js
+
+# NPM-generated files
+node_modules

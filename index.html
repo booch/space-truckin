@@ -7,6 +7,9 @@
 
     <script type="text/javascript" src="elm.js"></script>
     <script type="text/javascript">
+      if ( window.process && process.versions && process.versions.electron ) {
+        window.Elm = require('./elm.js');
+      }
       document.addEventListener('DOMContentLoaded', function(){
         var node = document.getElementById('main');
         var app = Elm.Main.embed(node);
