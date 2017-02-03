@@ -3,6 +3,5 @@ elm-stuff/
 # elm-repl generated files
 repl-temp-*
 
-# The HTML file is generated, so we don't need to keep it.
-index.html
+# This JS file is generated, so we don't need to keep it.
 elm.js

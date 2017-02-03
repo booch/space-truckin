@@ -1,0 +1,21 @@
+<!DOCTYPE html>
+<html>
+
+  <head>
+    <meta charset="UTF-8">
+    <title>Space Truckin'</title>
+
+    <script type="text/javascript" src="elm.js"></script>
+    <script type="text/javascript">
+      document.addEventListener('DOMContentLoaded', function(){
+        var node = document.getElementById('main');
+        var app = Elm.Main.embed(node);
+      }, false);
+    </script>
+  </head>
+
+  <body>
+    <div id="main"></div>
+  </body>
+
+</html>
