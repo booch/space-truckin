@@ -103,8 +103,8 @@ accelerate accelerationVector model =
 
 move : Model -> Model
 move model =
-    { model | location = { x = model.location.x + model.velocity.x,
-                           y = model.location.y + model.velocity.y } }
+    { model | location = { x = (clamp 0 (Screen.width - model.width) model.location.x + model.velocity.x),
+                           y = (clamp 0 (Screen.height - model.height) model.location.y + model.velocity.y) } }
 
 
 view : Model -> Svg Msg
