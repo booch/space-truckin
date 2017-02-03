@@ -1,6 +1,6 @@
 module Main exposing (..)
 
-import Html.App as App
+import Html
 import Svg exposing (..)
 import Svg.Attributes exposing (..)
 import Time exposing (Time, millisecond)
@@ -21,9 +21,9 @@ type Msg =
     | TruckMsg Truck.Msg
 
 
-main : Program Never
+main : Program Never Model Msg
 main =
-    App.program { init = init, update = update, view = view, subscriptions = subscriptions }
+    Html.program { init = init, update = update, view = view, subscriptions = subscriptions }
 
 
 init : ( Model, Cmd Msg )
@@ -63,7 +63,7 @@ update msg model =
 view : Model -> Svg Msg
 view model =
     Svg.svg [ version "1.1", x "0", y "0", (viewBox ("0 0 " ++ (toString Screen.width) ++ " " ++ (toString Screen.height))), Svg.Attributes.style "background: black;" ]
-        [ App.map TruckMsg (Truck.view model.truck) ]
+        [ Html.map TruckMsg (Truck.view model.truck) ]
 
 
 subscriptions : Model -> Sub Msg
