@@ -1,0 +1,14 @@
+{
+  "name": "space-truckin",
+  "version": "1.0.0",
+  "description": "Drive a delivery truck in space",
+  "scripts": {
+    "build": "elm make --output elm.js main.elm",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "Craig Buchek",
+  "license": "MIT",
+  "devDependencies": {
+  }
+}
+
