@@ -54,6 +54,7 @@ update msg model =
                     model.truck
                         |> Truck.thrust arrows
                         |> Truck.gravity
+                        |> Truck.move
             in
                 ( { model | time = newTime, truck = truck }, Cmd.none )
         TruckMsg msg ->

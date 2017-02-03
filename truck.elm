@@ -1,4 +1,4 @@
-module Truck exposing (Model, Msg, init, update, thrust, turn, gravity, view)
+module Truck exposing (Model, Msg, init, update, thrust, turn, gravity, move, view)
 
 import Svg exposing (..)
 import Svg.Attributes exposing (..)
@@ -69,11 +69,8 @@ update msg model =
 
 thrust : Arrows -> Model -> Model
 thrust arrows model =
-    { model |
-        location = { x = model.location.x + (toFloat arrows.x),
-                     y = model.location.y + (toFloat -arrows.y)
-                   }
-    } |> turn arrows
+    accelerate { x = (0.0001 * (toFloat arrows.x)), y = (-0.0001 * (toFloat arrows.y)) } model
+        |> turn arrows
 
 
 turn : Arrows -> Model -> Model
@@ -89,7 +86,25 @@ turn arrows model =
 
 gravity : Model -> Model
 gravity model =
-    { model | location = { x = model.location.x, y = model.location.y + 0.35 } }
+    accelerate { x = 0.0, y = 0.00004 } model
+
+
+accelerate : Vector -> Model -> Model
+accelerate accelerationVector model =
+    { model | acceleration = {
+            x = (clamp -0.01 0.01 (model.acceleration.x + accelerationVector.x)),
+            y = (clamp -0.01 0.01 (model.acceleration.y + accelerationVector.y)) },
+        velocity = {
+            -- Note that we're using the *old* acceleration here.
+            x = (clamp -0.8 0.8 model.velocity.x + model.acceleration.x),
+            y = (clamp -0.8 0.8 model.velocity.y + model.acceleration.y) }
+    }
+
+
+move : Model -> Model
+move model =
+    { model | location = { x = model.location.x + model.velocity.x,
+                           y = model.location.y + model.velocity.y } }
 
 
 view : Model -> Svg Msg
