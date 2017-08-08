@@ -20,7 +20,17 @@ TODO
 * Add landing pads for the truck to land on.
 * Add a route for the truck to follow (series of landing pads).
 * Add objects for the truck to crash into.
-* Use elm-lang/animation-frame.
+* Consider using a JavaScript 2D game framework.
+    * [PhaserJS](https://phaser.io/)
+        * See [here](https://github.com/jschomay/little-red-riding-hood/blob/master/top-down/src/index.js) for how to integrate w/ Elm.
+    * [PixiJS](http://www.pixijs.com/)
+    * [MelonJS](http://melonjs.org/)
+    * [Impact](http://impactjs.com/)
+* Consider using an Elm physics library.
+    * [Boxes and Bubbles](https://github.com/jastice/boxes-and-bubbles/tree/master/examples)
+* Consider using an Elm animation library.
+    * [animation-frame](https://github.com/elm-lang/animation-frame).
+        * Good [example](http://ohanhi.com/base-for-game-elm-017.html) use.
 * Add a series of screens.
     * Each will have different landing pads, objects, and routes.
 * Customize game-play of each screen.
