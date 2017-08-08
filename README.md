@@ -8,6 +8,12 @@ This is written partly so that I have a project to learn Elm,
 and partly because I loved Space Taxi so much, I want to play more games like it.
 
 
+Running
+-------
+
+To test, run `elm-reactor` and go to http://localhost:8000/src/main.elm.
+
+
 TODO
 ----
 
