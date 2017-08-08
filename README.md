@@ -28,9 +28,6 @@ TODO
     * [Impact](http://impactjs.com/)
 * Consider using an Elm physics library.
     * [Boxes and Bubbles](https://github.com/jastice/boxes-and-bubbles/tree/master/examples)
-* Consider using an Elm animation library.
-    * [animation-frame](https://github.com/elm-lang/animation-frame).
-        * Good [example](http://ohanhi.com/base-for-game-elm-017.html) use.
 * Add a series of screens.
     * Each will have different landing pads, objects, and routes.
 * Customize game-play of each screen.

@@ -3,7 +3,8 @@ module Main exposing (..)
 import Html
 import Svg exposing (..)
 import Svg.Attributes exposing (..)
-import Time exposing (Time, millisecond)
+import Time exposing (Time)
+import AnimationFrame
 import Keyboard.Extra as Keyboard
 import Truck
 import Screen
@@ -18,7 +19,7 @@ type alias Model =
     }
 
 type Msg =
-    Tick Time
+    TimeUpdate Time
     | KeyboardMsg Keyboard.Msg
     | TruckMsg Truck.Msg
     | SceneMsg {}
@@ -49,7 +50,7 @@ update msg model =
                 ( { model | keyboard = keyboardModel }
                 , Cmd.map KeyboardMsg keyboardCmd
                 )
-        Tick newTime ->
+        TimeUpdate newTime ->
             let
                 arrows =
                     Keyboard.arrows model.keyboard
@@ -77,5 +78,5 @@ subscriptions : Model -> Sub Msg
 subscriptions model =
     Sub.batch
         [ Sub.map KeyboardMsg Keyboard.subscriptions
-        , Time.every (8 * millisecond) Tick
+        , AnimationFrame.times TimeUpdate
         ]
